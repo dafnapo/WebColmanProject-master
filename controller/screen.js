@@ -1,7 +1,4 @@
-// export const getScreen = (req, res) => {
-//   res.render("hello");
-// };
+import massage from "../models/screen.js";
+const massageService = new massage();
 
-// export const createScreen = (req, res) => {
-//   res.send("hey");
-// };
+export default massageService;

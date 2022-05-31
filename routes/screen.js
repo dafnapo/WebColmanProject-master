@@ -1,11 +1,55 @@
 import express from "express";
-// import { getScreen, createScreen } from "../controllers/posts.js";
+import path from "path";
+import massageService from "../controller/screen.js";
+import massage from "../models/screen.js";
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("hello");
+var filterAds = [];
+
+router.get("/messages", (req, res) => {
+  // let messages = massageService.getData();
+  // messages
+  //   .then((data) => {
+  //     res.send(data);
+  //   })
+  //   .catch(function (e) {
+  //     res.status(500, {
+  //       error: e,
+  //     });
+  //   });
+  res.sendFile(path.resolve("./views/base.html"));
 });
-router.post("/", (req, res) => {
-  res.send("hey");
+
+router.get("/messages=:id", async function (req, res) {
+  var id = req.params.id;
+  console.log(id);
+
+  var messages = await massageService.getData();
+  filterAds = messages.filter((ad) => ad.ids.some((x) => id.includes(x)));
+  res.send(filterAds);
+  // messages
+  //   .then((data) => {
+  //     if (data.length === 0) {
+  //       res.status(404);
+  //       res.send("id not found");
+  //     } else {
+  //       // console.log(data);
+  //       res.send(data);
+  //     }
+  //   })
+  //   .catch(function (e) {
+  //     res.status(500, {
+  //       error: e,
+  //     });
+  //   });
 });
+
+router.get("/newAds", function (req, res) {
+  res.send(filterAds);
+});
+
+router.get("/views/ads", function (req, res) {
+  res.send(filterAds);
+});
+
 export default router;
