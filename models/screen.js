@@ -5,9 +5,9 @@ import fs from "fs";
 const __dirname = path.resolve();
 
 class massage {
-  async getData() {
+  getData() {
     try {
-      let rawData = await fs.readFileSync("data.json");
+      let rawData = fs.readFileSync("data.json");
       let massage = JSON.parse(rawData);
       return massage;
     } catch (error) {

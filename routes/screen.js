@@ -1,10 +1,11 @@
 import express from "express";
 import path from "path";
 import massageService from "../controller/screen.js";
-import massage from "../models/screen.js";
+// import massage from "../models/screen.js";
 const router = express.Router();
 
 var filterAds = [];
+let data;
 
 router.get("/messages", (req, res) => {
   // let messages = massageService.getData();
@@ -20,13 +21,13 @@ router.get("/messages", (req, res) => {
   res.sendFile(path.resolve("./views/base.html"));
 });
 
-router.get("/messages=:id", async function (req, res) {
+router.get("/data", function (req, res) {
   var id = req.params.id;
-  console.log(id);
-
-  var messages = await massageService.getData();
+  console.log("screen selected: " + id);
+  var messages = massageService.getData();
   filterAds = messages.filter((ad) => ad.ids.some((x) => id.includes(x)));
   res.send(filterAds);
+
   // messages
   //   .then((data) => {
   //     if (data.length === 0) {
