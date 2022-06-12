@@ -47,10 +47,11 @@ fetch("/data")
           Object.keys(ad.days).forEach((day) => {
             if (dayz[dt.getDay()] === day || day === "all") {
               if (hourCheck(ad.days.fromHour, ad.days.toHour, dt.getHours())) {
+                console.log(ad);
                 //settings for slider
                 var width = 720;
                 var animationSpeed = 1000;
-                var pause = ad.timeDuration * 1000; //1000
+                var pause = ad.timeDuration * 100; //1000
                 var currentSlide = 1;
                 var currentText = 0;
 

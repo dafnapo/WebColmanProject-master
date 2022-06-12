@@ -11,8 +11,10 @@ const app = express();
 var filterAds = [];
 let data;
 
-const getData = (filterNumber) => {
-  var messages = massageService.getData();
+massageService.initializeMessage();
+
+const getData = async (filterNumber) => {
+  var messages = await massageService.getAllMessages();
   console.log("selected screen: " + filterNumber);
   return messages.filter((item) => item.ids.includes(filterNumber));
 };
@@ -20,7 +22,6 @@ const getData = (filterNumber) => {
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
-// app.use("/?messages", screenRouter);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
@@ -29,13 +30,9 @@ app.use("/data.json", express.static("./data.json"));
 app.use("/views", express.static("./views"));
 app.use(express.static(__dirname));
 
-// app.get("/", (req, res) => {
-//   res.send(`Go to http://localhost:${PORT}/messages=id`);
-// });
-
-app.get("/", function (req, res) {
+app.get("/", async function (req, res) {
   if (req?.query && req.query?.screen) {
-    data = getData(Number(req.query.screen));
+    data = await getData(Number(req.query.screen));
     res.sendFile(path.resolve("./views/base.html"));
   } else res.send(`Go to http://localhost:${PORT}/?screen=id`);
 });
